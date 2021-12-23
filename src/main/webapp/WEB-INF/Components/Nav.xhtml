@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+>
+
+<h:form>
+    <p>Welcome #{loggedInManagedBean.username}</p>
+    <h:commandButton action="Home" value="Home"/>
+    <h:commandButton action="AuctionCar" value="Auction Car" rendered="#{loggedInManagedBean.userLoggedIn()}"/>
+    <h:commandButton action="UserCars" value="User Cars" rendered="#{loggedInManagedBean.userLoggedIn()}"/>
+    <h:commandButton action="SavedCars" value="Saved Cars"/>
+    <h:commandButton action="Offers" value="Offers" rendered="#{loggedInManagedBean.userLoggedIn()}"/>
+    <h:commandButton action="Login" value="Login" rendered="#{!loggedInManagedBean.userLoggedIn()}"/>
+    <h:commandButton action="Signin" value="Sign In" rendered="#{!loggedInManagedBean.userLoggedIn()}"/>
+    <h:commandButton action="#{loggedInManagedBean.logout}" value="Logout"
+                     rendered="#{loggedInManagedBean.userLoggedIn()}"/>
+</h:form>
+
+</html>

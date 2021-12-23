@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:cui="http://targauto.com/facelets"
+>
+<h:head>
+    <title>Sign in</title>
+</h:head>
+<cui:navigation/>
+<h:form id="user-form">
+    <h:outputLabel for="email">Email</h:outputLabel>
+    <h:inputText id="email" value="#{signInManagedBean.email}" required="true"
+                 requiredMessage="Email is required"/><br/>
+    <h:outputLabel for="username">Username</h:outputLabel>
+    <h:inputText id="username" value="#{signInManagedBean.username}" required="true"
+                 requiredMessage="Username is required"/><br/>
+    <h:outputLabel for="password">Password</h:outputLabel>
+    <h:inputText id="password" value="#{signInManagedBean.password}" required="true"
+                 requiredMessage="Password is required"/><br/>
+    <h:outputLabel for="confirmationPassword">Confirmation password</h:outputLabel>
+    <h:inputText id="confirmationPassword" value="#{signInManagedBean.confirmationPassword}" required="true"
+                 requiredMessage="Confirmation password is required"/><br/>
+
+    <h:commandButton id="submit-button" value="Submit" action="#{signInManagedBean.createUser}"/>
+</h:form>
+</html>
