@@ -11,9 +11,9 @@ public interface CarRepository {
 
   List<Car> getAllCars();
 
-  List<Car> getAllCarsInAuction();
+  List<Car> getAllCarsWithStatusInAuction();
 
-  List<Car> getAllCarsByUserAndInAuction(User user);
+  List<Car> getAllCarsForUserAndWithStatusInAuction(User user);
 
   Optional<Car> getCarById(String carId);
 

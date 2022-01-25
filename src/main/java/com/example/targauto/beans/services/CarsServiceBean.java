@@ -37,12 +37,12 @@ public class CarsServiceBean implements CarService {
 
   @Override
   public List<Car> getAllCarsInAuction() {
-    return carRepository.getAllCarsInAuction();
+    return carRepository.getAllCarsWithStatusInAuction();
   }
 
   @Override
   public List<Car> getAllCarsInAuctionForAUser(User user) {
-    return carRepository.getAllCarsByUserAndInAuction(user);
+    return carRepository.getAllCarsForUserAndWithStatusInAuction(user);
   }
 
   @Override

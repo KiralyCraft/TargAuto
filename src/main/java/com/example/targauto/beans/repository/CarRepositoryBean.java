@@ -41,7 +41,7 @@ public class CarRepositoryBean implements CarRepository {
   }
 
   @Override
-  public List<Car> getAllCarsInAuction() {
+  public List<Car> getAllCarsWithStatusInAuction() {
     try {
       TypedQuery<Car> query =
           manager.createQuery("select p from  Car p where p.status like 'inAuction'", Car.class);
@@ -53,7 +53,7 @@ public class CarRepositoryBean implements CarRepository {
   }
 
   @Override
-  public List<Car> getAllCarsByUserAndInAuction(User user) {
+  public List<Car> getAllCarsForUserAndWithStatusInAuction(User user) {
     try {
       var userFromDatabase = manager.find(User.class, user.getId());
       // without this forEach I get failed to lazily initialize a collection of role:
