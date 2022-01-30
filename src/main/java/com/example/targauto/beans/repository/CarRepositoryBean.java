@@ -2,6 +2,7 @@ package com.example.targauto.beans.repository;
 
 import com.example.targauto.interfaces.repository.CarRepository;
 import com.example.targauto.models.Car;
+import com.example.targauto.models.Offer;
 import com.example.targauto.models.User;
 import jakarta.ejb.Local;
 import jakarta.ejb.Stateless;
@@ -56,17 +57,7 @@ public class CarRepositoryBean implements CarRepository {
   public List<Car> getAllCarsForUserAndWithStatusInAuction(User user) {
     try {
       var userFromDatabase = manager.find(User.class, user.getId());
-      // without this forEach I get failed to lazily initialize a collection of role:
-      // com.example.targauto.models.User.cars, could not initialize proxy - no Session,
-      // dont ask me why
-      userFromDatabase
-          .getCars()
-          .forEach(
-              car -> {
-                car.getName();
-                car.getDescription();
-                car.getPrice();
-              });
+      userFromDatabase.getCars().forEach(Car::getId);
       return userFromDatabase.getCars();
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -78,9 +69,6 @@ public class CarRepositoryBean implements CarRepository {
   public Optional<Car> createCar(Car car, User user) {
     try {
       var userFromDatabase = manager.find(User.class, user.getId());
-      // cars from User are lazily initialized, I need to do this to get them from the database, if
-      // i dont do this I get failed to lazily initialize a collection of role:
-      // com.example.targauto.models.User.cars, could not initialize proxy - no Session
       userFromDatabase.getCars();
       userFromDatabase.addCar(car);
       manager.persist(car);
@@ -94,7 +82,10 @@ public class CarRepositoryBean implements CarRepository {
   @Override
   public Optional<Car> getCarById(String carId) {
     try {
-      return Optional.of(manager.find(Car.class, carId));
+      Car car = manager.find(Car.class, carId);
+      car.getUser();
+      car.getOffer().forEach(Offer::getId);
+      return Optional.of(car);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return Optional.empty();

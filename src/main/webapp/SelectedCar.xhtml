@@ -14,5 +14,11 @@
 <h:body>
     <gui:navigation/>
     <gui:car/>
+    <h:form id="carr-offer"
+            rendered="#{(selectedCarManagedBean.showMakeOffer(loggedInManagedBean.getUserOptional()))}">
+        <h:inputText value="#{selectedCarManagedBean.price}"/>
+        <h:commandButton action="#{selectedCarManagedBean.makeOffer(loggedInManagedBean.getUserOptional())}"
+                         value="Make offer"/>
+    </h:form>
 </h:body>
 </html>

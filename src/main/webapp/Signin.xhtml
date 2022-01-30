@@ -17,10 +17,10 @@
     <h:inputText id="username" value="#{signInManagedBean.username}" required="true"
                  requiredMessage="Username is required"/><br/>
     <h:outputLabel for="password">Password</h:outputLabel>
-    <h:inputText id="password" value="#{signInManagedBean.password}" required="true"
+    <h:inputSecret id="password" value="#{signInManagedBean.password}" required="true"
                  requiredMessage="Password is required"/><br/>
     <h:outputLabel for="confirmationPassword">Confirmation password</h:outputLabel>
-    <h:inputText id="confirmationPassword" value="#{signInManagedBean.confirmationPassword}" required="true"
+    <h:inputSecret id="confirmationPassword" value="#{signInManagedBean.confirmationPassword}" required="true"
                  requiredMessage="Confirmation password is required"/><br/>
 
     <h:commandButton id="submit-button" value="Submit" action="#{signInManagedBean.createUser}"/>
