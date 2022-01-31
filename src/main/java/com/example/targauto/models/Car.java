@@ -9,82 +9,79 @@ import java.util.UUID;
 @Entity
 @Table(name = "Cars")
 public class Car implements Serializable {
-    @Id
-    private String id;
-    private String name;
-    private String description;
-    private double price;
-    private String status;
-    @ManyToOne
-    private User user;
+  @Id private String id;
+  private String name;
+  private String description;
+  private double price;
+  private String status;
+  @ManyToOne private User user;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Offer> offer;
+  @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Offer> offers;
 
-    public Car() {
-    }
+  public Car() {}
 
-    public Car(String name, String description, double price) {
-        this.id = UUID.randomUUID().toString();
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.status = "inAuction";
-    }
+  public Car(String name, String description, double price) {
+    this.id = UUID.randomUUID().toString();
+    this.name = name;
+    this.description = description;
+    this.price = price;
+    this.status = "inAuction";
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String productId) {
-        this.id = productId;
-    }
+  public void setId(String productId) {
+    this.id = productId;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public double getPrice() {
-        return price;
-    }
+  public double getPrice() {
+    return price;
+  }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+  public void setPrice(double price) {
+    this.price = price;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public List<Offer> getOffer() {
-        return offer;
-    }
+  public List<Offer> getOffers() {
+    return offers;
+  }
 
-    public void setOffer(List<Offer> offer) {
-        this.offer = offer;
-    }
+  public void setOffers(List<Offer> offer) {
+    this.offers = offer;
+  }
 }

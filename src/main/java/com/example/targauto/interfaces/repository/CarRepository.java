@@ -17,7 +17,7 @@ public interface CarRepository {
 
   Optional<Car> getCarById(String carId);
 
-  void changeCarStatus(String carId, String newStatus);
+  Optional<Car> updateCarStatus(Car car, String newStatus);
 
   Optional<Car> createCar(Car car, User user);
 }

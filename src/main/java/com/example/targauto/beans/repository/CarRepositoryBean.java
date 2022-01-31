@@ -84,7 +84,7 @@ public class CarRepositoryBean implements CarRepository {
     try {
       Car car = manager.find(Car.class, carId);
       car.getUser();
-      car.getOffer().forEach(Offer::getId);
+      car.getOffers().forEach(Offer::getId);
       return Optional.of(car);
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -93,13 +93,15 @@ public class CarRepositoryBean implements CarRepository {
   }
 
   @Override
-  public void changeCarStatus(String carId, String newStatus) {
+  public Optional<Car> updateCarStatus(Car car, String newStatus) {
     try {
-      var productToBeRemoved = getCarById(carId);
-      if (productToBeRemoved.isEmpty()) return;
-      productToBeRemoved.get().setStatus(newStatus);
+      var carFromDatabase = manager.find(Car.class, car.getId());
+      carFromDatabase.setStatus(newStatus);
+      return Optional.of(carFromDatabase);
     } catch (Exception e) {
       System.out.println(e.getMessage());
+      System.out.println("Failed to update car status");
+      return Optional.empty();
     }
   }
 }

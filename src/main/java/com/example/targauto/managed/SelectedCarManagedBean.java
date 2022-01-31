@@ -3,6 +3,7 @@ package com.example.targauto.managed;
 import com.example.targauto.interfaces.services.CarService;
 import com.example.targauto.interfaces.services.OfferService;
 import com.example.targauto.models.Car;
+import com.example.targauto.models.Offer;
 import com.example.targauto.models.User;
 import jakarta.annotation.ManagedBean;
 import jakarta.ejb.EJB;
@@ -10,6 +11,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -57,5 +59,9 @@ public class SelectedCarManagedBean implements Serializable {
       return;
     }
     offerService.processUserOffer(user.get(), car, price);
+  }
+
+  public List<Offer> offersForCar() {
+    return offerService.getOffersForCar(car);
   }
 }

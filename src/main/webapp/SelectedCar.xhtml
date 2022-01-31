@@ -3,7 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:gui="http://targauto.com/facelets" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:gui="http://targauto.com/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
     <title>Selected Car</title>
 </h:head>
@@ -20,5 +21,14 @@
         <h:commandButton action="#{selectedCarManagedBean.makeOffer(loggedInManagedBean.getUserOptional())}"
                          value="Make offer"/>
     </h:form>
+    <p:dataTable value="#{selectedCarManagedBean.offersForCar()}" var="offer">
+
+        <p:column field="email" headerText="Email"><h:outputText value="#{offer.user.email}"/></p:column>
+        <p:column field="price" headerText="Offered price"><h:outputText
+                value="#{offer.price}"/></p:column>
+        <p:column field="offerDate" headerText="Date"><h:outputText value="#{offer.offerDate}"/></p:column>
+        <p:column field="status" headerText="Status"><h:outputText value="#{offer.status}"/></p:column>
+
+    </p:dataTable>
 </h:body>
 </html>

@@ -1,5 +1,6 @@
 package com.example.targauto.beans.services;
 
+import com.example.targauto.interfaces.repository.CarRepository;
 import com.example.targauto.interfaces.repository.OfferRepository;
 import com.example.targauto.interfaces.services.OfferService;
 import com.example.targauto.models.Car;
@@ -9,23 +10,55 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Local;
 import jakarta.ejb.Stateless;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Stateless
 @Local(OfferService.class)
 public class OfferServiceBean implements OfferService {
   @EJB OfferRepository offerRepository;
+  @EJB CarRepository carRepository;
 
   @Override
   public Optional<Offer> processUserOffer(User user, Car car, double price) {
-    var offerMadeByUser = offerRepository.getUserOfferForCar(user, car);
+    var offerMadeByUser = offerRepository.getOfferForCarByUser(user, car);
     if (offerMadeByUser.isPresent())
-      return offerRepository.updateOffer(offerMadeByUser.get(), price);
+      return offerRepository.updateOfferPrice(offerMadeByUser.get(), price);
     return offerRepository.createOffer(user, car, price);
   }
 
   @Override
-  public boolean acceptUserOffer(User user, Offer offer) {
-    return false;
+  public void acceptCarOffer(Offer acceptedOffer) {
+    try {
+      offerRepository.updateOfferStatus(acceptedOffer, "accepted");
+      var rejectedOffers =
+          acceptedOffer.getCar().getOffers().stream()
+              .filter(carOffer -> carOffer.getStatus().equals("pending"))
+              .collect(Collectors.toList());
+      rejectedOffers.forEach(
+          rejectedOffer -> offerRepository.updateOfferStatus(rejectedOffer, "rejected"));
+      carRepository.updateCarStatus(acceptedOffer.getCar(), "sold");
+    } catch (Exception e) {
+      System.out.println("Failed to accept offer");
+    }
+  }
+
+  @Override
+  public List<Offer> getAllPendingOffersForUser(User user) {
+    var allOffers = offerRepository.getAllOffersForUser(user);
+    var allUnacceptedOffers =
+        allOffers.stream().filter(offer -> offer.getStatus().equals("pending"));
+    return allUnacceptedOffers.collect(Collectors.toList());
+  }
+
+  @Override
+  public List<Offer> getOffersForCar(Car car) {
+    return offerRepository.getOffersForCar(car);
+  }
+
+  @Override
+  public List<Offer> getOffersMadeByUser(User user) {
+    return offerRepository.getAllOffersByUser(user);
   }
 }
