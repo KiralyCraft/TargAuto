@@ -20,28 +20,6 @@ public class CarRepositoryBean implements CarRepository {
   private EntityManager manager;
 
   @Override
-  public long getNrOfCars() {
-    try {
-      TypedQuery<Car> query = manager.createQuery("select p from  Car p ", Car.class);
-      return query.getResultStream().count();
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      return -1;
-    }
-  }
-
-  @Override
-  public List<Car> getAllCars() {
-    try {
-      TypedQuery<Car> query = manager.createQuery("select p from  Car p ", Car.class);
-      return query.getResultList();
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      return List.of();
-    }
-  }
-
-  @Override
   public List<Car> getAllCarsWithStatusInAuction() {
     try {
       TypedQuery<Car> query =

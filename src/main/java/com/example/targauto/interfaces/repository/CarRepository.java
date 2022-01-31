@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CarRepository {
-  long getNrOfCars();
-
-  List<Car> getAllCars();
 
   List<Car> getAllCarsWithStatusInAuction();
 
