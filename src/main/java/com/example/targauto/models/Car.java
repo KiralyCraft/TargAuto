@@ -17,7 +17,7 @@ public class Car implements Serializable {
   @ManyToOne private User user;
 
   @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Offer> offer;
+  private List<Offer> offers;
 
   public Car() {}
 
@@ -77,11 +77,11 @@ public class Car implements Serializable {
     this.status = status;
   }
 
-  public List<Offer> getOffer() {
-    return offer;
+  public List<Offer> getOffers() {
+    return offers;
   }
 
-  public void setOffer(List<Offer> offer) {
-    this.offer = offer;
+  public void setOffers(List<Offer> offer) {
+    this.offers = offer;
   }
 }

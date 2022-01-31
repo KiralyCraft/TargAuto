@@ -1,6 +1,9 @@
 package com.example.targauto.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -10,15 +13,19 @@ import java.util.UUID;
 @Table(name = "Offers")
 public class Offer implements Serializable {
   @Id private String id;
-  @ManyToOne
-  private Car car ;
+  @ManyToOne private Car car;
   @ManyToOne private User user;
   private LocalDate offerDate;
+  private double price;
+  private String status;
 
-  public Offer(Car car,String address) {
+  public Offer(User user, Car car, double price) {
+    this.price = price;
     this.id = UUID.randomUUID().toString();
     this.offerDate = LocalDate.now();
     this.car = car;
+    this.user = user;
+    this.status = "pending";
   }
 
   public Offer() {}
@@ -59,4 +66,19 @@ public class Offer implements Serializable {
     this.car = car;
   }
 
+  public double getPrice() {
+    return price;
+  }
+
+  public void setPrice(double price) {
+    this.price = price;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
 }

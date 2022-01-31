@@ -7,17 +7,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CarRepository {
-  long getNrOfCars();
 
-  List<Car> getAllCars();
+  List<Car> getAllCarsWithStatusInAuction();
 
-  List<Car> getAllCarsInAuction();
-
-  List<Car> getAllCarsByUserAndInAuction(User user);
+  List<Car> getAllCarsForUserAndWithStatusInAuction(User user);
 
   Optional<Car> getCarById(String carId);
 
-  void changeCarStatus(String carId, String newStatus);
+  Optional<Car> updateCarStatus(Car car, String newStatus);
 
   Optional<Car> createCar(Car car, User user);
 }

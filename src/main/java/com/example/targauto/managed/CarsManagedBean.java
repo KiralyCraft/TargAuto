@@ -24,6 +24,6 @@ public class CarsManagedBean implements Serializable {
   public List<Car> getListOfAllCarsInAuctionOfAUser() {
     var user = SessionUtils.getUser();
     if (user.isEmpty()) return List.of();
-    return carService.getAllCarsInAuctionForAUser(user.get());
+    return carService.getAllCarsInAuctionOwnedByUser(user.get());
   }
 }

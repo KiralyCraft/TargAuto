@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:cui="http://targauto.com/facelets">
+<h:head>
+    <title>My Offers</title>
+</h:head>
+<h:body>
+    <cui:navigation/>
+    <h:form>
+        <p:dataTable value="#{userOffersManagedBean.allOffersMadeByUser(loggedInManagedBean.getUserOptional())}"
+                     var="offer">
+            <p:column field="price" headerText="Offered price"><h:outputText
+                    value="#{offer.price}"/></p:column>
+            <p:column field="offerDate" headerText="Date"><h:outputText value="#{offer.offerDate}"/></p:column>
+            <p:column field="status" headerText="Status"><h:outputText value="#{offer.status}"/></p:column>
+            <p:column field="name" headerText="Car Name"><h:outputLink value="SelectedCar.jsf">
+                <p:outputLabel value="#{offer.car.name}"/>
+                <f:param name="carId" value="#{offer.car.id}"/>
+            </h:outputLink></p:column>
+            <p:column field="name" headerText="Owner contact"><h:outputText value="#{offer.car.user.email}"/></p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>

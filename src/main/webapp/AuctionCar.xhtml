@@ -8,20 +8,20 @@
 <h:head>
     <title>Car Form</title>
 </h:head>
-<h:form>
     <cui:navigation/>
+<h:form id="auction-car-form">
     <h3>Post car for auction</h3>
     <h:outputText value="Car name: "/>
-    <p:inputText id="name" value="#{auctionCarManagedBean.name}"/>
+    <h:inputText id="name" value="#{auctionCarManagedBean.name}"/>
     <br/><br/>
 
     <h:outputText value="Description: "/>
-    <p:inputText id="description" value="#{auctionCarManagedBean.description}"/>
+    <h:inputText id="description" value="#{auctionCarManagedBean.description}"/>
     <br/><br/>
     <h:outputText value="Price: "/>
-    <p:inputNumber id="price" value="#{auctionCarManagedBean.price}"/>
+    <h:inputText id="price" value="#{auctionCarManagedBean.price}"/>
     <br/><br/>
-    <p:commandButton action="#{auctionCarManagedBean.giveCarForAuction}"
+    <h:commandButton action="#{auctionCarManagedBean.giveCarForAuction}"
                      value="Auction car"/>
 </h:form>
 </html>
