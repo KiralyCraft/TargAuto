@@ -11,5 +11,7 @@ public interface UserRepository {
     Optional<User> getUserByUsername(String username);
 
     Optional<User> createUser(User user);
+    
+    boolean removeUser(User user);
 
 }

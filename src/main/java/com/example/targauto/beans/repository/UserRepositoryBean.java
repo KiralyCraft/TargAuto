@@ -58,4 +58,19 @@ public class UserRepositoryBean implements UserRepository {
       return Optional.empty();
     }
   }
+
+	@Override
+	public boolean removeUser(User user)
+	{
+		try
+		{
+			manager.remove(user);
+			return true;
+		}
+		catch( Exception e)
+		{
+			return false;
+		}
+		
+	}
 }
