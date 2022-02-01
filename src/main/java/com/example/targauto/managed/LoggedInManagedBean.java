@@ -30,10 +30,11 @@ public class LoggedInManagedBean implements Serializable {
         this.password = password;
     }
 
+    @Deprecated
     public String getMessage() {
         return message;
     }
-
+    @Deprecated
     public void setMessage(String message) {
         this.message = message;
     }
@@ -73,5 +74,21 @@ public class LoggedInManagedBean implements Serializable {
         HttpSession session = SessionUtils.getSession();
         session.invalidate();
         return "Login";
+    }
+    
+    /*
+     * Called by JSF - May return NULL, so parse it properly
+     */
+    public String getUserFeedback()
+    {
+    	return SessionUtils.getUserFeedback(); //Session-specific
+    }
+    
+    /*
+     * Called by JSF
+     */
+    public boolean queueUserFeedback(String theFeedback)
+    {
+    	return SessionUtils.queueUserFeedback(theFeedback);
     }
 }
