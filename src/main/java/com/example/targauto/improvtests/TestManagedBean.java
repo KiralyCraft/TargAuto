@@ -3,11 +3,13 @@ package com.example.targauto.improvtests;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.targauto.interfaces.services.AuthenticationService;
 import com.example.targauto.interfaces.services.CarService;
 import com.example.targauto.interfaces.services.OfferService;
 import com.example.targauto.interfaces.services.SaveCarService;
+import com.example.targauto.models.User;
 
 import jakarta.annotation.ManagedBean;
 import jakarta.annotation.PostConstruct;
@@ -77,7 +79,7 @@ public class TestManagedBean
 	private void assertTrue(boolean expression) throws RuntimeException
 	{
 		StackTraceElement stackTrace = new Exception().getStackTrace()[1];
-		String commonText = "Test at <u>"+stackTrace.getMethodName()+":"+stackTrace.getLineNumber()+"</u> has ";
+		String commonText = "Assertion at <u>"+stackTrace.getClassName()+":"+stackTrace.getMethodName()+" - "+stackTrace.getLineNumber()+"</u> has ";
 		try
 		{
 			if (expression)
@@ -159,20 +161,20 @@ public class TestManagedBean
 	
 	
 	@JankTest
-	private void test1()
+	private void testBogusUsername()
 	{
-		assertTrue(true);
+		Optional<User> t = this.theAuthService.getUserByUsername(String.valueOf(System.currentTimeMillis()));
+		assertTrue(t.isEmpty());
 	}
 	
 	@JankTest
-	private void test2()
+	private void testRealUsername()
 	{
-		assertTrue(false);
+		User userToCreate = new User("Martie"+System.currentTimeMillis(),"alune@f.com","12345");		
+		Optional<User> the = this.theAuthService.createUser(userToCreate);
+		assertTrue(the.isPresent());
+		assertTrue(theAuthService.removeUser(userToCreate));
+		
 	}
-	
-	@JankTest
-	private void test3()
-	{
-		assertTrue(true);
-	}
+
 }
