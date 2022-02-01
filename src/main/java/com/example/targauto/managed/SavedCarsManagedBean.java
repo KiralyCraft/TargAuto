@@ -2,6 +2,8 @@ package com.example.targauto.managed;
 
 import com.example.targauto.interfaces.services.SaveCarService;
 import com.example.targauto.models.SavedCar;
+import com.example.targauto.utils.SessionUtils;
+
 import jakarta.annotation.ManagedBean;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
@@ -30,6 +32,7 @@ public class SavedCarsManagedBean implements Serializable {
         .getExternalContext()
         .addResponseCookie(
             "saved-car-" + carId, URLEncoder.encode(carId, StandardCharsets.UTF_8), properties);
+    SessionUtils.queueUserFeedback("Car ID: \""+carId+"\" has been saved!");
   }
 
   public String removeSavedCar(String carId) throws UnsupportedEncodingException {
@@ -39,6 +42,7 @@ public class SavedCarsManagedBean implements Serializable {
         .getExternalContext()
         .addResponseCookie(
             "saved-car-" + carId, URLEncoder.encode(carId, StandardCharsets.UTF_8), properties);
+    SessionUtils.queueUserFeedback("Car ID: \""+carId+"\" has been forgotten.");
     return "SavedCars?faces-redirect=true";
   }
 

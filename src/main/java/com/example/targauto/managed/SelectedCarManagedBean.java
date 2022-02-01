@@ -5,6 +5,8 @@ import com.example.targauto.interfaces.services.OfferService;
 import com.example.targauto.models.Car;
 import com.example.targauto.models.Offer;
 import com.example.targauto.models.User;
+import com.example.targauto.utils.SessionUtils;
+
 import jakarta.annotation.ManagedBean;
 import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
@@ -55,10 +57,13 @@ public class SelectedCarManagedBean implements Serializable {
   }
 
   public void makeOffer(Optional<User> user) {
-    if (user.isEmpty() || Objects.equals(user.get().getId(), car.getUser().getId()) || price <= 0) {
-      return;
-    }
-    offerService.processUserOffer(user.get(), car, price);
+	if (user.isEmpty() || Objects.equals(user.get().getId(), car.getUser().getId()) || price <= 0)
+	{
+		SessionUtils.queueUserFeedback("Your offer did not go through.");
+		return;
+	}
+	offerService.processUserOffer(user.get(), car, price);
+	SessionUtils.queueUserFeedback("Offer processed successfully.");
   }
 
   public List<Offer> offersForCar() {

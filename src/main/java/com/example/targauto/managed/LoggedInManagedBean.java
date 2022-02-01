@@ -56,7 +56,7 @@ public class LoggedInManagedBean implements Serializable {
             SessionUtils.storeUserInSession(user.get());
             return "Home";
         } else {
-            setMessage("Login failed");
+        	SessionUtils.queueUserFeedback("Login failed, please try again.");
             return "Login";
         }
     }

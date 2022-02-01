@@ -2,6 +2,8 @@ package com.example.targauto.managed;
 
 import com.example.targauto.interfaces.services.AuthenticationService;
 import com.example.targauto.models.User;
+import com.example.targauto.utils.SessionUtils;
+
 import jakarta.annotation.ManagedBean;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
@@ -53,13 +55,34 @@ public class SignInManagedBean implements Serializable {
   }
 
   public String createUser() {
-    var user = new User(username, email, password);
-    // validatenewuser returneaza un mesaj, nu am mai implementat si afisarea lui
-    if (user.validateNewUser(confirmationPassword) != null) return "Signin";
-    var createdUser = authenticationService.createUser(user);
-    if (createdUser.isEmpty()) {
-      return "Signin";
-    }
-    return "Home";
+	var user = new User(username, email, password);
+	// validatenewuser returneaza un mesaj, nu am mai implementat si afisarea lui
+	// las ca fac eu
+	
+	String userValidationResult = user.validateNewUser(confirmationPassword);
+	if (userValidationResult != null)
+	{
+		String feedbackMessage = "Unknown error";
+		switch(userValidationResult)
+		{
+			case "username_length":
+				feedbackMessage = "Username is too short."; break;
+			case "password_length":
+				feedbackMessage = "Password is too short."; break;
+			case "conform_length":
+			case "confirm":
+				feedbackMessage = "Passwords do not match."; break;
+			case "email":
+				feedbackMessage = "Email is invalid."; break;
+		}
+		SessionUtils.queueUserFeedback(feedbackMessage);
+		return null; //Merge cu null ca ramanem tot aici
+	}
+	var createdUser = authenticationService.createUser(user);
+	if (createdUser.isEmpty())
+	{
+		return null; //Same
+	}
+	return "Home";
   }
 }
