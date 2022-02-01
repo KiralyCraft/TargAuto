@@ -15,7 +15,7 @@
     <h:commandButton action="Offers" value="Offers" rendered="#{loggedInManagedBean.userLoggedIn()}"/>
     <h:commandButton action="MyOffers" value="MyOffers" rendered="#{loggedInManagedBean.userLoggedIn()}"/>
     <h:commandButton action="Login" value="Login" rendered="#{!loggedInManagedBean.userLoggedIn()}"/>
-    <h:commandButton action="Signin" value="Sign In" rendered="#{!loggedInManagedBean.userLoggedIn()}"/>
+    <h:commandButton action="Signin" value="Sign Up" rendered="#{!loggedInManagedBean.userLoggedIn()}"/>
     <h:commandButton action="#{loggedInManagedBean.logout}" value="Logout"
                      rendered="#{loggedInManagedBean.userLoggedIn()}"/>
 </h:form>
