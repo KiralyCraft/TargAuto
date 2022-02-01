@@ -30,7 +30,9 @@ public class LoginFilter implements Filter {
         || requestPath.matches("/Cars.jsf")
         || requestPath.startsWith("/SelectedCar.jsf")
         || requestPath.matches("/Signin.jsf")
-        || requestPath.matches("/SavedCars.jsf")) {
+        || requestPath.matches("/SavedCars.jsf")
+    	|| requestPath.matches("/Tests.jsf"))
+    {
       chain.doFilter(httpRequest, httResponse);
       return;
     }

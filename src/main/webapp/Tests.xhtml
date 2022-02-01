@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <title>Home</title>
+</h:head>
+<h:body>
+<!--    <h:outputText value="#{testBean.runTests()}"></h:outputText> -->
+<!-- 	<c:set var="tmp" value="#{testBean.runTests()}" scope="request"/> -->
+   <h:outputText value="${fn:replace(testBean.runTests(),'\\n','&lt;br/&gt;')}" escape="false" /> 
+</h:body>
+
+</html>
