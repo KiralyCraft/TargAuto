@@ -36,6 +36,7 @@ public class OfferServiceBean implements OfferService {
           acceptedOffer.getCar().getOffers().stream()
               .filter(carOffer -> carOffer.getStatus().equals("pending"))
               .collect(Collectors.toList());
+      rejectedOffers.remove(acceptedOffer);
       rejectedOffers.forEach(
           rejectedOffer -> offerRepository.updateOfferStatus(rejectedOffer, "rejected"));
       carRepository.updateCarStatus(acceptedOffer.getCar(), "sold");
