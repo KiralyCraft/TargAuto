@@ -82,4 +82,24 @@ public class CarRepositoryBean implements CarRepository {
       return Optional.empty();
     }
   }
+
+	@Override
+	public boolean delistCar(String carID)
+	{
+		try
+		{
+			Car theCar = manager.find(Car.class, carID);
+			if (theCar != null)
+			{
+				manager.remove(theCar);
+				return true;
+			}
+		}
+		catch(Exception e)
+		{
+			System.err.println("Failed to delist car:");
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

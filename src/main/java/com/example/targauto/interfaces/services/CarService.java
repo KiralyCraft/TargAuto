@@ -15,4 +15,6 @@ public interface CarService {
   Optional<Car> auctionCar(Car car, User user);
 
   Optional<Car> getCarById(String carId);
+
+  boolean delistCarID(String carID);
 }

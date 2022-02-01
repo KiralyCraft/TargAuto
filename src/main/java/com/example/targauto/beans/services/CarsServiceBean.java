@@ -35,4 +35,10 @@ public class CarsServiceBean implements CarService {
   public Optional<Car> auctionCar(Car car, User user) {
     return carRepository.createCar(car, user);
   }
+
+	@Override
+	public boolean delistCarID(String carID)
+	{
+		return carRepository.delistCar(carID);
+	}
 }

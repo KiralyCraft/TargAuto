@@ -17,4 +17,6 @@ public interface CarRepository {
   Optional<Car> updateCarStatus(Car car, String newStatus);
 
   Optional<Car> createCar(Car car, User user);
+
+  boolean delistCar(String carID);
 }

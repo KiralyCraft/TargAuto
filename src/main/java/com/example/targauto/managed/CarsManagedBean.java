@@ -26,4 +26,18 @@ public class CarsManagedBean implements Serializable {
     if (user.isEmpty()) return List.of();
     return carService.getAllCarsInAuctionOwnedByUser(user.get());
   }
+  /*
+   * Called by JSF to change a car's status from inAuction to "withdrawn"
+   */
+  public void delistCar(String carID)
+  {
+	if(carService.delistCarID(carID))
+	{
+		SessionUtils.queueUserFeedback("Delist successful!");
+	}
+	else
+	{
+		SessionUtils.queueUserFeedback("Could not unlist your car.");
+	}
+  }
 }
