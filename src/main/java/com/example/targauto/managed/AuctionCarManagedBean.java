@@ -47,14 +47,17 @@ public class AuctionCarManagedBean implements Serializable {
   public String giveCarForAuction() {
 	if (price < 0)
 	{
+		SessionUtils.queueUserFeedback("Invalid price range");
 		return "AuctionCar";
 	}
 	else if (description == null || !(description.length() >= 1))
 	{
+		SessionUtils.queueUserFeedback("Description required");
 		return "AuctionCar";
 	}
 	else if (name == null || !(name.length() >= 1))
 	{
+		SessionUtils.queueUserFeedback("Name required");
 		return "AuctionCar";
 	}
 	else

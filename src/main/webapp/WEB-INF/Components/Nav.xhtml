@@ -16,6 +16,10 @@
         <p>Hello, please login or sign up.</p>
     </c:otherwise>
 	</c:choose>
+	<c:set var="feedback" value="#{loggedInManagedBean.getUserFeedback()}" scope="request"/>
+	<c:if test="${not empty feedback}">
+		<h3>Server says: <i>"#{feedback}"</i></h3>
+	</c:if>
     <h:commandButton action="Home" value="Home"/>
     <h:commandButton action="AuctionCar" value="Auction Car" rendered="#{loggedInManagedBean.userLoggedIn()}"/>
     <h:commandButton action="UserCars" value="User Cars" rendered="#{loggedInManagedBean.userLoggedIn()}"/>

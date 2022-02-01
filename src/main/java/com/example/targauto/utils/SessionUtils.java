@@ -64,6 +64,7 @@ public class SessionUtils
 	}
 	/*
 	 * Returns the feedback for a user, if applicable. Otherwise, returns null.
+	 * Clears the feedback upon checking.
 	 */
 	public static String getUserFeedback()
 	{
@@ -78,6 +79,10 @@ public class SessionUtils
 			{
 				System.err.println("Feedback parsing failed: "+cce.getMessage());
 				return "ERR";
+			}
+			finally
+			{
+				theSession.setAttribute("userFeedback", null);
 			}
 		}
 		else
