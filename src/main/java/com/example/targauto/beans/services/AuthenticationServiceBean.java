@@ -38,4 +38,18 @@ public class AuthenticationServiceBean implements AuthenticationService {
 
     return usersRepository.createUser(user);
   }
+
+	@Override
+	public boolean removeUser(User user)
+	{
+		if (getUserByUsername(user.getUsername()).isPresent())
+		{
+			usersRepository.removeUser(user);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

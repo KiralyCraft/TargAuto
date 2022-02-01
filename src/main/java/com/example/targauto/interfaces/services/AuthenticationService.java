@@ -12,4 +12,6 @@ public interface AuthenticationService {
     Optional<User> verifyUser(Optional<User> user, String username, String password);
 
     Optional<User> createUser(User user);
+    
+    boolean removeUser(User user);
 }
