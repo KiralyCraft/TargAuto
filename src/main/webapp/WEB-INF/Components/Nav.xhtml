@@ -3,11 +3,19 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+	
 >
 
 <h:form>
-    <p>Welcome #{loggedInManagedBean.username}</p>
+	<c:choose>
+    <c:when test="#{loggedInManagedBean.userLoggedIn()}">
+        <p>Welcome, #{loggedInManagedBean.username}!</p>
+    </c:when>
+    <c:otherwise>
+        <p>Hello, please login or sign up.</p>
+    </c:otherwise>
+	</c:choose>
     <h:commandButton action="Home" value="Home"/>
     <h:commandButton action="AuctionCar" value="Auction Car" rendered="#{loggedInManagedBean.userLoggedIn()}"/>
     <h:commandButton action="UserCars" value="User Cars" rendered="#{loggedInManagedBean.userLoggedIn()}"/>
