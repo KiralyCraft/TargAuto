@@ -45,11 +45,26 @@ public class AuctionCarManagedBean implements Serializable {
   }
 
   public String giveCarForAuction() {
-    var car = new Car(name, description, price);
-    var user = SessionUtils.getUser();
-    if (user.isEmpty()) return "AuctionCar";
-    var auctionCar = carService.auctionCar(car, user.get());
-    if (auctionCar.isEmpty()) return "AuctionCar";
-    return "Home";
+	if (price < 0)
+	{
+		return "AuctionCar";
+	}
+	else if (description == null || !(description.length() >= 1))
+	{
+		return "AuctionCar";
+	}
+	else if (name == null || !(name.length() >= 1))
+	{
+		return "AuctionCar";
+	}
+	else
+	{
+	    var car = new Car(name, description, price);
+	    var user = SessionUtils.getUser();
+	    if (user.isEmpty()) return "AuctionCar";
+	    var auctionCar = carService.auctionCar(car, user.get());
+	    if (auctionCar.isEmpty()) return "AuctionCar";
+	    return "Home";
+	}
   }
 }
