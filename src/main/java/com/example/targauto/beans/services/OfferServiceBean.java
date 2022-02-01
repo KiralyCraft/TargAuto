@@ -32,8 +32,9 @@ public class OfferServiceBean implements OfferService {
   public void acceptCarOffer(Offer acceptedOffer) {
     try {
       offerRepository.updateOfferStatus(acceptedOffer, "accepted");
+      Optional<Car> theCar = carRepository.getCarById(acceptedOffer.getCar().getId());
       var rejectedOffers =
-          acceptedOffer.getCar().getOffers().stream()
+    		  theCar.get().getOffers().stream()
               .filter(carOffer -> carOffer.getStatus().equals("pending"))
               .collect(Collectors.toList());
       rejectedOffers.remove(acceptedOffer);
@@ -41,6 +42,7 @@ public class OfferServiceBean implements OfferService {
           rejectedOffer -> offerRepository.updateOfferStatus(rejectedOffer, "rejected"));
       carRepository.updateCarStatus(acceptedOffer.getCar(), "sold");
     } catch (Exception e) {
+    	e.printStackTrace();
       System.out.println("Failed to accept offer");
     }
   }
