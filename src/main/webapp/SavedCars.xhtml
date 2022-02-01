@@ -15,7 +15,7 @@
             <p:column field="name" headerText="Name"><h:outputText value="#{car.car.name}"/></p:column>
             <p:column field="description" headerText="Description"><h:outputText
                     value="#{car.car.description}"/></p:column>
-            <p:column field="price" headerText="Price"><h:outputText value="#{car.car.description}"/></p:column>
+            <p:column field="price" headerText="Price"><h:outputText value="#{car.car.price}"/></p:column>
             <p:column><h:commandButton value="Remove Saved car"
                                        action="#{savedCarsManagedBean.removeSavedCar(car.car.id)}"/></p:column>
         </p:dataTable>
