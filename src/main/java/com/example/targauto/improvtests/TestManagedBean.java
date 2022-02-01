@@ -76,7 +76,6 @@ public class TestManagedBean
 	
 	private void assertTrue(boolean expression) throws RuntimeException
 	{
-		testCount++;
 		StackTraceElement stackTrace = new Exception().getStackTrace()[1];
 		String commonText = "Test at <u>"+stackTrace.getMethodName()+":"+stackTrace.getLineNumber()+"</u> has ";
 		try
@@ -84,7 +83,6 @@ public class TestManagedBean
 			if (expression)
 			{
 				commonText+= "<b>PASSED</b>";
-				testsPassed++;
 			}
 			else
 			{
@@ -99,7 +97,7 @@ public class TestManagedBean
 	}
 	
 	String returnedStuff = null;
-	public String runTests()
+	public synchronized String runTests()
 	{
 		if (returnedStuff == null)
 		{
@@ -141,13 +139,14 @@ public class TestManagedBean
 					theMethod.invoke(this);
 					testsPassed++;
 				}
-				catch(RuntimeException re)
-				{
-					; //Ignore
-				}
 				catch (Exception exception)
 				{
-					results.addLog("Test method <u>"+theMethod.getName()+"</u> has <b>TRAGICALLY FAILED</b>: "+exception.getMessage());
+					Throwable theCause = exception.getCause();
+					if (!(theCause instanceof RuntimeException))
+					{
+						exception.printStackTrace();
+						results.addLog("Test method <u>"+theMethod.getName()+"</u> has <b>TRAGICALLY FAILED</b>: "+exception.getMessage());
+					}
 				}
 			}
 		}
@@ -162,6 +161,18 @@ public class TestManagedBean
 	@JankTest
 	private void test1()
 	{
-		
+		assertTrue(true);
+	}
+	
+	@JankTest
+	private void test2()
+	{
+		assertTrue(false);
+	}
+	
+	@JankTest
+	private void test3()
+	{
+		assertTrue(true);
 	}
 }
