@@ -9,6 +9,7 @@ import com.example.targauto.interfaces.services.AuthenticationService;
 import com.example.targauto.interfaces.services.CarService;
 import com.example.targauto.interfaces.services.OfferService;
 import com.example.targauto.interfaces.services.SaveCarService;
+import com.example.targauto.models.Car;
 import com.example.targauto.models.User;
 
 import jakarta.annotation.ManagedBean;
@@ -79,7 +80,7 @@ public class TestManagedBean
 	private void assertTrue(boolean expression) throws RuntimeException
 	{
 		StackTraceElement stackTrace = new Exception().getStackTrace()[1];
-		String commonText = "Assertion at <u>"+stackTrace.getClassName()+":"+stackTrace.getMethodName()+" - "+stackTrace.getLineNumber()+"</u> has ";
+		String commonText = "Assertion at <u>"+stackTrace.getMethodName()+" - "+stackTrace.getLineNumber()+"</u> has ";
 		try
 		{
 			if (expression)
@@ -117,6 +118,11 @@ public class TestManagedBean
 			}
 			results.addLog("\n");
 			results.addLog("Test routine completed. Passed: "+testsPassed+"/"+testCount);
+			
+			if (testsPassed == testCount)
+			{
+				results.addLog("<h2>All tests passed!</h2>");
+			}
 			return (returnedStuff = results.toString());
 		}
 		else
@@ -157,6 +163,7 @@ public class TestManagedBean
 	
 	/*
 	 * SE DEFINESC MAI JOS TESTE CU ADNOTAREA {@link JankTest}
+	 * Testam chestiile din interfetele de service
 	 */
 	
 	
@@ -170,11 +177,44 @@ public class TestManagedBean
 	@JankTest
 	private void testRealUsername()
 	{
-		User userToCreate = new User("Martie"+System.currentTimeMillis(),"alune@f.com","12345");		
+		String username = "Martie"+System.currentTimeMillis();
+		String email = "alune@f.com";
+		
+		User userToCreate = new User(username,email,"12345");		
 		Optional<User> the = this.theAuthService.createUser(userToCreate);
 		assertTrue(the.isPresent());
+		assertTrue(theAuthService.verifyUser(Optional.of(userToCreate), username, "12345").isPresent());
 		assertTrue(theAuthService.removeUser(userToCreate));
 		
 	}
+	
+	@JankTest
+	private void testCars()
+	{
+		String name = "Martie"+System.currentTimeMillis();
+		String desc = "alune";
+		double price = Math.random();
+		Car newCar = new Car(name,desc,price);
+		
+		String carID = newCar.getId();
+		
+		String username = "Martie"+System.currentTimeMillis();
+		String email = "alune@f.com";
+		
+		User userToCreate = new User(username,email,"12345");		
+		this.theAuthService.createUser(userToCreate);
+		
+		assertTrue(this.theCarService.getCarById(carID).isEmpty());
+		assertTrue(this.theCarService.auctionCar(newCar,userToCreate).isPresent());
+		assertTrue(this.theCarService.getCarById(carID).isPresent());
+		assertTrue(this.theCarService.getAllCarsInAuctionOwnedByUser(userToCreate).size() == 1);
+		assertTrue(this.theCarService.delistCarID(carID));
+		assertTrue(this.theCarService.getCarById(carID).isEmpty());
+		assertTrue(this.theCarService.getAllCarsInAuctionOwnedByUser(userToCreate).size() == 0);
+		
+		theAuthService.removeUser(userToCreate);
+		
+	}
+	
 
 }
