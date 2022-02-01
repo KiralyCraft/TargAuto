@@ -10,6 +10,7 @@ import com.example.targauto.interfaces.services.CarService;
 import com.example.targauto.interfaces.services.OfferService;
 import com.example.targauto.interfaces.services.SaveCarService;
 import com.example.targauto.models.Car;
+import com.example.targauto.models.Offer;
 import com.example.targauto.models.User;
 
 import jakarta.annotation.ManagedBean;
@@ -150,7 +151,7 @@ public class TestManagedBean
 				catch (Exception exception)
 				{
 					Throwable theCause = exception.getCause();
-					if (!(theCause instanceof RuntimeException))
+					if (theCause != null && !(theCause instanceof RuntimeException))
 					{
 						exception.printStackTrace();
 						results.addLog("Test method <u>"+theMethod.getName()+"</u> has <b>TRAGICALLY FAILED</b>: "+exception.getMessage());
@@ -216,5 +217,53 @@ public class TestManagedBean
 		
 	}
 	
+	@JankTest
+	private void testOffers()
+	{
+		String name = "Martie"+System.currentTimeMillis();
+		String desc = "alune";
+		double price = Math.random();
+		Car newCar = new Car(name,desc,price);
+		
+		String carID = newCar.getId();
+		
+		String username = "Martie"+System.currentTimeMillis();
+		String email = "alune@f.com";
+		
+		User userToCreate = new User(username,email,"12345");		
+		this.theAuthService.createUser(userToCreate);
+		
+		User userToCreate2 = new User(username+"_copy",email,"12345");		
+		this.theAuthService.createUser(userToCreate2);
+		
+		User userToCreate3 = new User(username+"_copy2",email,"12345");		
+		this.theAuthService.createUser(userToCreate3);
+		
+		this.theCarService.auctionCar(newCar,userToCreate);
+		
+		Optional<Offer> offerOne = this.theOffserService.processUserOffer(userToCreate2, newCar, 3.0);
+		assertTrue(offerOne.isPresent());
+		assertTrue(this.theOffserService.getAllPendingOffersForUser(userToCreate).size() == 1);
+		assertTrue(this.theOffserService.getOffersMadeByUser(userToCreate2).size() == 1);
+		
+		Optional<Offer> offerTwo = this.theOffserService.processUserOffer(userToCreate3, newCar, 2.0);
+		assertTrue(offerTwo.isPresent());
+		assertTrue(this.theOffserService.getAllPendingOffersForUser(userToCreate).size() == 2);
+		assertTrue(this.theOffserService.getOffersMadeByUser(userToCreate3).size() == 1);
+		
+		this.theOffserService.acceptCarOffer(offerTwo.get());
+		
+		List<Offer> firstUserOffers = this.theOffserService.getOffersMadeByUser(userToCreate2);
+		assertTrue(firstUserOffers.size()==1);
+		assertTrue(firstUserOffers.get(0).getStatus().equalsIgnoreCase("rejected"));
+		
+		List<Offer> secondUserOffers = this.theOffserService.getOffersMadeByUser(userToCreate3);
+		assertTrue(secondUserOffers.size()==1);
+		assertTrue(secondUserOffers.get(0).getStatus().equalsIgnoreCase("accepted"));
+		
+		assertTrue(this.theCarService.getCarById(carID).get().getStatus().equalsIgnoreCase("sold"));
+		
+		assertTrue(this.theOffserService.getOffersForCar(newCar).size()==2);
+	}
 
 }
