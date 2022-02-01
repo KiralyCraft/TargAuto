@@ -73,7 +73,7 @@ public class LoggedInManagedBean implements Serializable {
     public String logout() {
         HttpSession session = SessionUtils.getSession();
         session.invalidate();
-        return "Login";
+        return "Home?faces-redirect=true";
     }
     
     /*
