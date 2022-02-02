@@ -42,11 +42,17 @@ public class TestManagedBean
 			}
 			return sb.toString();
 		}
+		/**
+		 * Logs a message in memory, to be used later.
+		 */
 		public void addLog(String toAdd)
 		{
 			testResults.add(toAdd);
 			
 		}
+		/**
+		 * Clears all messages currently in the queue.
+		 */
 		public void clear()
 		{
 			testResults.clear();
@@ -78,6 +84,11 @@ public class TestManagedBean
 		testsPassed = 0;
 	}
 	
+	/**
+	 * Checks whether the expression provided is true. If it is, it appends a success message to the logs.
+	 * If it fails, it appends a failed message and breaks execution by throwing a {@link RuntimeException}.
+	 * It is up to the caller to handle this exception. 
+	 */
 	private void assertTrue(boolean expression) throws RuntimeException
 	{
 		StackTraceElement stackTrace = new Exception().getStackTrace()[1];

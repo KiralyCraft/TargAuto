@@ -14,30 +14,48 @@ import java.util.List;
 @Named("carsManagedBean")
 @ManagedBean
 @SessionScoped
-public class CarsManagedBean implements Serializable {
-  @EJB CarService carService;
+public class CarsManagedBean implements Serializable
+{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7871726187538533243L;
+	@EJB
+	CarService carService;
 
-  public List<Car> getListOfAllCarsInAuction() {
-    return carService.getAllCarsInAuction();
-  }
+	/**
+	 * Lists all {@link Car}s in the auction, regardless of the owner and auction status. 
+	 */
+	public List<Car> getListOfAllCarsInAuction()
+	{
+		return carService.getAllCarsInAuction();
+	}
+	
+	/**
+	 * Lists all {@link Car}s in the auction specifically belonging to the 
+	 * {@link User} associated with the current {@link HttpSession}.
+	 * @return
+	 */
+	public List<Car> getListOfAllCarsInAuctionOfAUser()
+	{
+		var user = SessionUtils.getUser();
+		if (user.isEmpty())
+			return List.of();
+		return carService.getAllCarsInAuctionOwnedByUser(user.get());
+	}
 
-  public List<Car> getListOfAllCarsInAuctionOfAUser() {
-    var user = SessionUtils.getUser();
-    if (user.isEmpty()) return List.of();
-    return carService.getAllCarsInAuctionOwnedByUser(user.get());
-  }
-  /*
-   * Called by JSF to change a car's status from inAuction to "withdrawn"
-   */
-  public void delistCar(String carID)
-  {
-	if(carService.delistCarID(carID))
+	/**
+	 * Called by JSF to change a car's status from inAuction to "withdrawn".
+	 * Takes a {@link Car}'s ID as argument and provides feedback using the Session Feedback route.
+	 */
+	public void delistCar(String carID)
 	{
-		SessionUtils.queueUserFeedback("Delist successful!");
+		if (carService.delistCarID(carID))
+		{
+			SessionUtils.queueUserFeedback("Delist successful!");
+		} else
+		{
+			SessionUtils.queueUserFeedback("Could not unlist your car.");
+		}
 	}
-	else
-	{
-		SessionUtils.queueUserFeedback("Could not unlist your car.");
-	}
-  }
 }

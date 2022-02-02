@@ -19,6 +19,9 @@ public class CarRepositoryBean implements CarRepository {
   @PersistenceContext(unitName = "targAuto")
   private EntityManager manager;
 
+  /**
+   * Returns a List (potentially empty) of all the currently-auctioned cars.
+   */
   @Override
   public List<Car> getAllCarsWithStatusInAuction() {
     try {
@@ -31,6 +34,10 @@ public class CarRepositoryBean implements CarRepository {
     }
   }
 
+  /**
+   * Returns a potentially empty List of all the Cars in an auction, belonging to the given User.
+   * No further checks are made for the validity of the given User.
+   */
   @Override
   public List<Car> getAllCarsForUserAndWithStatusInAuction(User user) {
     try {
@@ -43,6 +50,10 @@ public class CarRepositoryBean implements CarRepository {
     }
   }
 
+  /**
+   * Creates a Car entry that is mapped to the given User, and persists it in the database.
+   * If it succeeds, it returns an Optional Car - It might be missing if an error occured.
+   */
   @Override
   public Optional<Car> createCar(Car car, User user) {
     try {
@@ -57,6 +68,10 @@ public class CarRepositoryBean implements CarRepository {
     }
   }
 
+  /**
+   * Returns an Optional Car, searched for using the provided ID. If it does not match exactly to 
+   * a Car's from the database, it returns an empty Optional.
+   */
   @Override
   public Optional<Car> getCarById(String carId) {
     try {
@@ -69,7 +84,11 @@ public class CarRepositoryBean implements CarRepository {
       return Optional.empty();
     }
   }
-
+  
+  /**
+   * Updates a Car's status with the provided status. Arbitrary statuses are permitted.
+   * It returns the updated car, or an empty Optional if the update failed 
+   */
   @Override
   public Optional<Car> updateCarStatus(Car car, String newStatus) {
     try {
@@ -82,7 +101,9 @@ public class CarRepositoryBean implements CarRepository {
       return Optional.empty();
     }
   }
-
+/**
+ * Attempts to delist the Car with the provided ID. If such a Car does not exist, the return result is false.
+ */
 	@Override
 	public boolean delistCar(String carID)
 	{
